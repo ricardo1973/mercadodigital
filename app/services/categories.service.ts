@@ -22,4 +22,12 @@ export class CategoriesService {
 		return this.http.get(`${this.api}categories.json?orderBy="${orderBy}"&equalTo="${equalTo}"&print=pretty`);
 
 	}
+
+
+		patchData(id:string, value:object){
+
+			return this.http.patch(`${this.api}categories/${id}.json`,value);
+	
+
+	}
 }

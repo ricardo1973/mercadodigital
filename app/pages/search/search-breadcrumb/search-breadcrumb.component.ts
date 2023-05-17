@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './search-breadcrumb.component.html',
   styleUrls: ['./search-breadcrumb.component.css']
 })
-export class SearchBreadcrumbComponent implements OnInit {
+export class SearchBreadcrumbComponent  {
 
 	breadcrumb:string = null;
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Path } from '../../config';
-
+import { Search } from '../../functions';
 import { CategoriesService } from '../../services/categories.service';
 import { SubCategoriesService } from '../../services/sub-categories.service';
 
@@ -55,6 +55,20 @@ export class HeaderComponent implements OnInit {
 	
 	}
 
+	/*=============================================
+	Declaramos función del buscador
+	=============================================*/
+
+	goSearch(search:string){
+
+		if(search.length == 0 || Search.fnc(search) == undefined){
+
+			return;
+		}
+
+		window.open(`search/${Search.fnc(search)}`, '_top')
+
+	}
 	/*=============================================
 	Función que nos avisa cuando finaliza el renderizado de Angular
 	=============================================*/

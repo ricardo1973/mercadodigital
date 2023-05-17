@@ -37,10 +37,14 @@ export class BestSalesItemComponent implements OnInit {
 
     this.cargando = true;
 
-        let params = this.activateRoute.snapshot.params["param"];
-
         /*=============================================
     		Capturamos el parámetro URL
+    		=============================================*/	
+
+        let params = this.activateRoute.snapshot.params["param"].split("&")[0];
+
+        /*=============================================
+    		filtramos data de productos con categoria
     		=============================================*/	
         this.productsService.getFilterData("category", params)
     		
@@ -48,15 +52,11 @@ export class BestSalesItemComponent implements OnInit {
 
           if(Object.keys(resp1).length > 0){
   
-              let i;
-        
-              for(i in resp1){
-
+              
                 this.productsFnc(resp1);
   
                  
   
-          }
   
         }else{
   
@@ -65,15 +65,8 @@ export class BestSalesItemComponent implements OnInit {
             =============================================*/	
             this.productsService.getFilterData("sub_category", params)
             .subscribe(resp2 =>{
-          
-                 
-                let i;
-          
-                for(i in resp2){
-                       
+                      
                     this.productsFnc(resp2);
-          
-                 }  
   
   
              })

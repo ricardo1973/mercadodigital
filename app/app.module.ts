@@ -26,6 +26,15 @@ import { ProductsBreadcrumbComponent } from './pages/products-breadcrumb/product
 import { BestSalesItemComponent } from './pages/products/best-sales-item/best-sales-item.component';
 import { ProductsRecommendedComponent } from './pages/products/products-recommended/products-recommended.component';
 import { ProductsShowcaseComponent } from './pages/products/products-showcase/products-showcase.component';
+import { SearchBreadcrumbComponent } from './pages/search/search-breadcrumb/search-breadcrumb.component';
+import { SearchShowcaseComponent } from './pages/search/search-showcase/search-showcase.component';
+import { CallToActionComponent } from './pages/product/call-to-action/call-to-action.component';
+import { ProductBreadcrumbComponent } from './pages/product/product-breadcrumb/product-breadcrumb.component';
+import { ProductLeftComponent } from './pages/product/product-left/product-left.component';
+import { ProductRightComponent } from './pages/product/product-right/product-right.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -49,7 +58,16 @@ import { ProductsShowcaseComponent } from './pages/products/products-showcase/pr
     ProductsBreadcrumbComponent,
     BestSalesItemComponent,
     ProductsRecommendedComponent,
-    ProductsShowcaseComponent
+    ProductsShowcaseComponent,
+    SearchBreadcrumbComponent,
+    SearchShowcaseComponent,
+    CallToActionComponent,
+    ProductBreadcrumbComponent,
+    ProductLeftComponent,
+    ProductRightComponent
+    
+    
+    
     
     
     

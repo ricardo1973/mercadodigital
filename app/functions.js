@@ -432,3 +432,85 @@ export let DinamicPrice = {
 
 
 }
+
+/*=============================================
+Pagination
+=============================================*/
+export let Pagination = {
+
+    fnc: function(){
+
+        var target = $('.pagination');
+        
+        if (target.length > 0) {
+
+            target.each(function() {
+                
+                var tg = $(this),
+                    totalPages = tg.data('total-pages'),                
+                    actualPage = tg.data('actual-page'),
+                    currentRoute = tg.data('current-route');    
+   
+                tg.twbsPagination({
+                    totalPages: totalPages,
+                    startPage: actualPage,
+                    visiblePages: 4,
+                    first: "First",
+                    last: "Last",
+                    prev: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>'
+                }).on("page", function(evt, page){
+
+                     window.location.href = currentRoute+"&"+page;
+
+                })
+               
+
+            })
+        }
+
+    }
+
+}
+/*=============================================
+select2Cofig
+=============================================*/
+export let select2Cofig = {
+
+        fnc: function(){
+
+        $('select.ps-select').select2({
+            placeholder: $(this).data('placeholder'),
+            minimumResultsForSearch: -1
+        });
+    }
+}
+
+/*=============================================
+Search
+=============================================*/
+export let Search = {
+
+    fnc: function(response){
+
+        var search = response.toLowerCase();
+
+        var match = /^[a-z0-9ñÑáéíóú ]*$/;
+
+        if(match.test(search)){
+
+            var searchTest = search.replace(/[ ]/g, "_");
+            searchTest = searchTest.replace(/[ñ]/g, "n");
+            searchTest = searchTest.replace(/[á]/g, "a");
+            searchTest = searchTest.replace(/[é]/g, "e");
+            searchTest = searchTest.replace(/[í]/g, "i");
+            searchTest = searchTest.replace(/[ó]/g, "o");
+            searchTest = searchTest.replace(/[ú]/g, "u");
+
+            return searchTest;
+
+        }
+
+    }
+
+}

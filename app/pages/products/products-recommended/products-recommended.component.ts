@@ -39,7 +39,7 @@ export class ProductsRecommendedComponent {
     		Capturamos el parámetro URL
     		=============================================*/	
 
-        let params = this.activateRoute.snapshot.params["param"];
+        let params = this.activateRoute.snapshot.params["param"].split("&")[0];
 
         /*=============================================
     		filtramos data de productos con categorias
@@ -49,16 +49,10 @@ export class ProductsRecommendedComponent {
         .subscribe(resp1 =>{
 
           if(Object.keys(resp1).length > 0){
-  
-              let i;
-        
-              for(i in resp1){
+              
 
                 this.productsFnc(resp1);
-  
-                 
-  
-          }
+       
   
         }else{
   
@@ -67,16 +61,10 @@ export class ProductsRecommendedComponent {
             =============================================*/	
             this.productsService.getFilterData("sub_category", params)
             .subscribe(resp2 =>{
-          
-                 
-                let i;
-          
-                for(i in resp2){
+             
                        
                     this.productsFnc(resp2);
-          
-                 }  
-  
+   
   
              })
   

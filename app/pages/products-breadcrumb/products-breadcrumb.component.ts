@@ -27,7 +27,7 @@ export class ProductsBreadcrumbComponent implements OnInit {
 	=============================================*/		
     // this.activateRoute.params.subscribe(param => { })
 
-      let params = this.activateRoute.snapshot.params["param"];
+      let params = this.activateRoute.snapshot.params["param"].split("&")[0];
 
       /*=============================================
 	Filtramos data de categorías
@@ -43,6 +43,16 @@ export class ProductsBreadcrumbComponent implements OnInit {
             for(i in resp1){
 
                 this.breadcrumb = resp1[i].name;
+
+                let id = Object.keys(resp1).toString();
+                
+                let value = {
+                 "view": Number (resp1[i].view+1)
+                }
+
+                this.categoriesService.patchData(id, value)
+                .subscribe(resp=>{})
+              
 
         }
 
@@ -61,6 +71,15 @@ export class ProductsBreadcrumbComponent implements OnInit {
         
             
                   this.breadcrumb = resp2[i].name;
+
+                  let id = Object.keys(resp2).toString();
+                
+                let value = {
+                 "view": Number (resp2[i].view+1)
+                }
+
+                this.subCategoriesService.patchData(id, value)
+                .subscribe(resp=>{})
         
              }  
 
