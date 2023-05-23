@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Path } from '../../../../config';
 import { Rating,
   		 DinamicRating, 
@@ -13,14 +13,14 @@ declare var $:any;
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.css']
 })
-export class ReviewsComponent implements OnInit {
+export class ReviewsComponent  {
 
 	@Input() childItem:any;
-	path:string = Path.url;	
-	rating:any[] = [];
-	totalReviews:string;
-	itemReviews:any[] = [];
-	render:boolean = true;
+	path:String = Path.url;	
+	rating:Array<any> = [];
+	totalReviews:String;
+	itemReviews:Array<any> = [];
+	render:Boolean = true;
 
   	constructor() { }
 
@@ -40,7 +40,7 @@ export class ReviewsComponent implements OnInit {
 
         reviews.push(DinamicReviews.fnc(this.rating[0]));
 
-        for(let i = 0; i < reviews[0].length; i++){
+        for(let i = 0; i < 5; i++){
 
         	$(".reviewsOption").append(`
 			
@@ -109,11 +109,6 @@ export class ReviewsComponent implements OnInit {
 
 	    	//Hacemos una regla de 3: la cantidad que suma cada estella multiplicado por 100 dividido la cantidad de calificaciones
 	    	let starPercentage = Math.round((objectStar[i] * 100)/ arrayReview.length)
-
-	    	if(isNaN(starPercentage)){
-
-	    		starPercentage = 0;
-	    	}
 	    	
 	    	$(".ps-block--average-rating").append(`
 				

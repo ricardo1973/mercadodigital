@@ -2,9 +2,7 @@
 Home Deal Hot Today
 ======================================-->  
 
-<div 
-*ngIf="indexes.length > 1"
-class="ps-deal-hot">
+<div class="ps-deal-hot">
 
     <div class="container">
 
@@ -17,7 +15,7 @@ class="ps-deal-hot">
             <div class="col-xl-9 col-12 ">
 
                 <div 
-                 *ngIf="!preload"
+                 *ngIf="!cargando"
                  class="ps-block--deal-hot" data-mh="dealhot">
 
                     <div class="ps-block__header">
@@ -37,7 +35,7 @@ class="ps-deal-hot">
 
                     <div class="ps-product__content">
 
-                        <div class="ps-carousel--deal-hot ps-carousel--deal-hot owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
+                        <div class="ps-carousel--deal-hot ps-carousel--deal-hot owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
 
                             <!--=====================================
 							Product Deal Home
@@ -173,71 +171,9 @@ class="ps-deal-hot">
                 ======================================-->
 
                 <div 
-                *ngIf="preload"
+                *ngIf="cargando"
                 class="d-flex justify-content-center">
-                    <!-- <div class="spinner-border text-muted my-5"></div> -->
-                     <div class="container-fluid">
-
-                        <div class="ph-item">
-
-                            <div class="ph-col-6">
-
-                                <div class="ph-item border-0">
-
-                                    <div class="ph-col-2">
-
-                                        <div class="ph-picture" style="height:300px"></div>                              
-
-                                    </div>
-
-                                    <div class="ph-col-10">
-
-                                        <div class="ph-picture" style="height:300px"></div>
-
-                                    </div>  
-
-                                </div>           
-
-                            </div>
-
-                            <div class="ph-col-6">
-
-                                <div class="ph-row mt-5">
-
-                                    <div class="ph-col-4 big"></div>
-                                    <div class="ph-col-8 empty"></div>
-
-                                    <div class="ph-col-6 big"></div>
-                                    <div class="ph-col-6 empty"></div>
-
-                                    <div class="ph-col-8"></div>
-                                    <div class="ph-col-4 empty"></div>
-
-                                    <div class="ph-col-12 big"></div>
-                                    
-                                    <div class="ph-col-6" style="height:70px"></div> 
-                                    <div class="ph-col-6 empty"></div>
-
-                                    <div class="ph-col-8 big"></div>
-                                    <div class="ph-col-4 empty"></div>
-
-                                    <div class="ph-col-12 big"></div>
-
-                                    <div class="ph-col-8"></div>
-                                    <div class="ph-col-4 empty"></div>
-
-                                    <div class="ph-col-12 big"></div>
-
-                                    <div class="ph-col-12" style="height:70px"></div>                                 
-
-                                </div>                                      
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    
+                    <div class="spinner-border text-muted my-5"></div>
                 </div>
 
             </div><!-- End Columns --> 
@@ -255,121 +191,7 @@ class="ps-deal-hot">
                     <div class="widget__content">
 
                         <div class="d-flex justify-content-center preload">
-                            <!-- <div class="spinner-border text-muted my-5"></div> -->
-
-                            <div class="container-fluid">
-
-                                <div class="ph-item border-0 p-0 mt-0">
-
-                                    <div class="ph-col-6">
-                                         
-                                        <div class="ph-picture" style="height:50px"></div>
-
-                                    </div>
-
-                                    <div class="ph-col-6">
-
-                                        <div class="ph-row">
-
-                                            <div class="ph-col-8"></div>
-                                            <div class="ph-col-4 empty"></div>
-                                         
-                                            <div class="ph-col-12"></div>
-                                            <div class="ph-col-12"></div>
-                                                                                    
-                                            <div class="ph-col-6"></div>
-                                            <div class="ph-col-6 empty"></div>    
-
-                                        </div>
-
-                                    </div>         
-
-                                </div>
-
-                                 <div class="ph-item border-0 p-0 mt-0">
-
-                                    <div class="ph-col-6">
-                                         
-                                        <div class="ph-picture" style="height:50px"></div>
-
-                                    </div>
-
-                                     <div class="ph-col-6">
-
-                                        <div class="ph-row">
-                                         
-                                            <div class="ph-col-8"></div>
-                                            <div class="ph-col-4 empty"></div>
-                                         
-                                            <div class="ph-col-12"></div>
-                                            <div class="ph-col-12"></div>
-                                                                                    
-                                            <div class="ph-col-6"></div>
-                                            <div class="ph-col-6 empty"></div>    
-
-                                        </div>
-
-                                    </div>         
-
-                                </div>
-
-                                 <div class="ph-item border-0 p-0 mt-0">
-
-                                    <div class="ph-col-6">
-                                         
-                                        <div class="ph-picture" style="height:50px"></div>
-
-                                    </div>
-
-                                     <div class="ph-col-6">
-
-                                        <div class="ph-row">
-                                         
-                                            <div class="ph-col-8"></div>
-                                            <div class="ph-col-4 empty"></div>
-                                         
-                                            <div class="ph-col-12"></div>
-                                            <div class="ph-col-12"></div>
-                                                                                    
-                                            <div class="ph-col-6"></div>
-                                            <div class="ph-col-6 empty"></div>     
-
-                                        </div>
-
-                                    </div>         
-
-                                </div>
-
-                                 <div class="ph-item border-0 p-0 mt-0">
-
-                                    <div class="ph-col-6">
-                                         
-                                        <div class="ph-picture" style="height:50px"></div>
-
-                                    </div>
-
-                                     <div class="ph-col-6">
-
-                                        <div class="ph-row">
-                                         
-                                            <div class="ph-col-8"></div>
-                                            <div class="ph-col-4 empty"></div>
-                                         
-                                            <div class="ph-col-12"></div>
-                                            <div class="ph-col-12"></div>
-                                                                                    
-                                            <div class="ph-col-6"></div>
-                                            <div class="ph-col-6 empty"></div>      
-
-                                        </div>
-
-                                    </div>         
-
-                                </div>
-
-                            </div>
-
-
+                            <div class="spinner-border text-muted my-5"></div>
                         </div>
 
 

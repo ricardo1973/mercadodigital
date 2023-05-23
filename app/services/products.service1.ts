@@ -8,7 +8,7 @@ import { Api } from '../config';
 
 export class ProductsService {
 
-	private api:String = Api.url;
+	private api:string = Api.url;
 
 	constructor(private http:HttpClient ) { }
 
@@ -21,6 +21,36 @@ export class ProductsService {
 	getLimitData(startAt:string, limitToFirst:number){
 
 		return this.http.get(`${this.api}products.json?orderBy="$key"&startAt="${startAt}"&limitToFirst=${limitToFirst}&print=pretty`);
+
+	}
+
+	getFilterData(orderBy:string, equalTo:string){
+
+		return this.http.get(`${this.api}products.json?orderBy="${orderBy}"&equalTo="${equalTo}"&print=pretty`);
+
+	}
+
+	getFilterDataWithLimit(orderBy:string, equalTo:string, limitToFirst:number){
+
+		return this.http.get(`${this.api}products.json?orderBy="${orderBy}"&equalTo="${equalTo}"&limitToFirst=${limitToFirst}&print=pretty`);
+
+	}
+
+	getSearchData(orderBy:string, param:string){
+
+		return this.http.get(`${this.api}products.json?orderBy="${orderBy}"&startAt="${param}"&endAt="${param}\uf8ff"&print=pretty`);
+
+	}
+
+	patchData(id:string, value:object){
+
+		return this.http.patch(`${this.api}products/${id}.json`,value);
+
+	}
+
+	getUniqueData(value:string){
+
+		return this.http.get(`${this.api}products/${value}.json`);
 
 	}
 }

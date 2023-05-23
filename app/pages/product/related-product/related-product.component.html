@@ -2,9 +2,7 @@
 Related products
 ======================================--> 
 
-<div 
-*ngIf="!preload"
-class="ps-section--default">
+<div class="ps-section--default">
 
     <div class="ps-section__header">
 
@@ -31,7 +29,7 @@ class="ps-section--default">
 	                <ul class="ps-product__actions">
 
 	                    <li>
-	                    	<a style="cursor:pointer" (click)="addShoppingCart(product.url, 1, [])" data-toggle="tooltip" data-placement="top" title="Add to Cart">
+	                    	<a href="#" data-toggle="tooltip" data-placement="top" title="Read More">
 	                        	<i class="icon-bag2"></i>
 	                        </a>
 	                    </li>
@@ -43,7 +41,7 @@ class="ps-section--default">
 	                    </li>
 
 	                    <li>
-	                    	<a  style="cursor:pointer" (click)="addWishlist(product.url)" data-toggle="tooltip" data-placement="top" title="Add to Whishlist">
+	                    	<a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist">
 	                    		<i class="icon-heart"></i>
 	                    	</a>
 	                    </li>
@@ -94,15 +92,4 @@ class="ps-section--default">
 
         </div>
     </div>
-</div> <!-- End Related products -->	
-
-<!--=====================================
-Preload
-======================================-->
-<div
-*ngIf="preload"
-class="d-flex justify-content-center">
-    
-    <div class="spinner-border text-muted my-5"></div>
-
-</div>
+</div> <!-- End Related products -->		

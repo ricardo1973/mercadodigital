@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { Path } from '../../../config';
-import { Rating, 
-  DinamicRating, 
-  DinamicReviews, 
-  DinamicPrice,
-  CountDown,
-  ProgressBar
-   } from '../../../functions';
+import { Rating,
+  		 DinamicRating, 
+	     DinamicReviews, 
+	     DinamicPrice,
+	     CountDown,
+	     ProgressBar,
+	     Tabs,
+       SlickConfig,
+       ProductLightbox,
+       Quantity } from '../../../functions';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
 import { ProductsService } from '../../../services/products.service';
 
 @Component({
@@ -18,115 +22,158 @@ import { ProductsService } from '../../../services/products.service';
 })
 export class ProductLeftComponent {
 
-  path:string = Path.url;
-  product:Array<any> = [];
-  rating:Array<any> = [];
-  reviews:Array<any> = [];
-  price:Array<any> = [];
-  cargando:boolean = false;
-  render:Boolean = true;
-  countd:Array<any> = [];
+  	path:String = Path.url;	
+  	product:Array<any>= [];
+  	rating:Array<any> = [];
+	  reviews:Array<any> = [];
+	  price:Array<any> = [];
+	  cargando:Boolean = false;
+	  render:Boolean = true;
+	  countd:Array<any> = [];
+    gallery:Array<any> = [];
+    renderGallery:Boolean = true;
+    video:string = null;
+    tags:String = null;
+    totalReviews:String;
 
-  constructor(private activateRoute: ActivatedRoute,
-            private productsService: ProductsService) {}
 
-  ngOnInit(): void {
+  	constructor(private activateRoute: ActivatedRoute,
+  		        private productsService: ProductsService) { }
 
-    this.cargando = true;
+  	ngOnInit(): void {
 
-    this.productsService.getFilterData("url",this.activateRoute.snapshot.params["param"])
-    .subscribe( resp => {
+  		this.cargando = true;
+  	
+  		this.productsService.getFilterData("url", this.activateRoute.snapshot.params["param"])  
+  		.subscribe( resp => {
+  			
+  			this.productsFnc(resp);		
 
-      this.productsFnc(resp);	
+  		})
 
-    })
+  	}
 
-   }
   /*=============================================
-      	Declaramos función para mostrar los productos recomendados
-      	=============================================*/	
+	Declaramos función para mostrar los productos recomendados
+	=============================================*/	
 
-      	productsFnc(response){
+  	productsFnc(response){
 
-          this.product = [];
-    
-      		    /*=============================================
-          		Hacemos un recorrido por la respuesta que nos traiga el filtrado
-          		=============================================*/	
+  		this.product = [];
 
-          		let i;
-          		let getProduct = [];
+		/*=============================================
+		Hacemos un recorrido por la respuesta que nos traiga el filtrado
+		=============================================*/	
+
+  		let i;
+  		let getProduct = [];
+
+  		for(i in response){
+
+			getProduct.push(response[i]);						
+				
+		}
+
+		/*=============================================
+		Filtramos el producto
+		=============================================*/
+
+		getProduct.forEach((product, index)=>{
+
+			this.product.push(product);
+			
+			this.rating.push(DinamicRating.fnc(this.product[index]));
+			
+			this.reviews.push(DinamicReviews.fnc(this.rating[index]));
+
+			this.price.push(DinamicPrice.fnc(this.product[index]));
+
+			/*=============================================
+    	Agregamos la fecha al descontador
+    	=============================================*/ 
+    	
+    	if(this.product[index].offer != ""){
+
+    		const date = JSON.parse(this.product[index].offer)[2]; 
+         
+        this.countd.push(
+
+        	new Date(
+        		parseInt(date.split("-")[0]),
+        		parseInt(date.split("-")[1])-1,
+        		parseInt(date.split("-")[2])
+
+      	  )
+
+        )
+
+    	}
+
+      /*=============================================
+      Gallery
+      =============================================*/
+
+      this.gallery.push(JSON.parse(this.product[index].gallery)) 
+
+      /*=============================================
+      Video
+      =============================================*/
+
+      if(JSON.parse(this.product[index].video)[0] == "youtube"){
+
+        this.video = `https://www.youtube.com/embed/${JSON.parse(this.product[index].video)[1]}?rel=0&autoplay=0 `
+
+      }
+
+      if(JSON.parse(this.product[index].video)[0] == "vimeo"){
+
+        this.video = `https://player.vimeo.com/video/${JSON.parse(this.product[index].video)[1]}`
         
-          		for(i in response){
-        
-        			getProduct.push(response[i]);
-              						
-        				
-        		}
+      }
 
-            /*=============================================
-        		Ordenamos de mayor a menor ventas el arreglo de objetos
-        		=============================================*/	
-        
-        		getProduct.sort(function(a,b){
-        			return (b.views - a.views)
+     /*=============================================
+      Agregamos los tags
+      =============================================*/ 
 
-            })	
-            
-            /*=============================================
-        		Filtramos solo hasta 10 productos
-        		=============================================*/
+      this.tags = this.product[index].tags.split(",");
 
-            getProduct.forEach((product, index)=>{
+      /*=============================================
+        Total Reviews
+        =============================================*/
+        this.totalReviews = JSON.parse(this.product[index].reviews).length;
 
-              
-                
-                this.product.push(product);
 
-                this.rating.push(DinamicRating.fnc(this.product[index]));
+			this.cargando = false;
+	
+		})
 
-                this.reviews.push(DinamicReviews.fnc(this.rating[index]));
+	}
 
-                this.price.push(DinamicPrice.fnc(this.product[index]));
+	callback(){
 
-                /*=============================================
-        		    agregamos la fecha al descontador
-        		    =============================================*/
-                if(this.product[index].offer != ""){
+		if(this.render){
 
-                  const date = JSON.parse(this.product[index].offer)[2];
-                  this.countd.push(
+			this.render = false;
 
-                  new Date(
-                      parseInt(date.split("-")[0]),
-                      parseInt(date.split("-")[1])-1,
-                      parseInt(date.split("-")[2])
-                    )
-                  )
-     
-              }
+			Rating.fnc();
+			CountDown.fnc();
+			ProgressBar.fnc();
+			Tabs.fnc();
+      Quantity.fnc();
+		}
+	}
 
-                this.cargando = false;
+  callbackGallery(){
 
-              })
+    if(this.renderGallery){
 
-        }
+      this.renderGallery = false;
 
-              callback(){
-                if(this.render){
-                  this.render = false;
-                  Rating.fnc();
-                  CountDown.fnc();
-                  ProgressBar.fnc();
+      SlickConfig.fnc()
+      ProductLightbox.fnc()
 
-                
-              }
-              
-          }
-
-           
-       
-            
     }
 
+  }
 
+}

@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  { NgForm } from '@angular/forms';
-import * as firebase from "firebase/app";
-import "firebase/auth";
-
 import { Capitalize, Sweetalert } from '../../functions';
-
 import { UsersModel } from '../../models/users.model';
-
 import { UsersService  } from '../../services/users.service';
 
 declare var jQuery:any;
@@ -19,14 +14,14 @@ declare var $:any;
 })
 export class RegisterComponent implements OnInit {
 
-	user: UsersModel;
+  user: UsersModel;
 
-	constructor(private usersService: UsersService){ 
+  constructor(private usersService: UsersService){
 
-		this.user = new UsersModel();
-	}
+    this.user = new UsersModel();
+  }
 
-	ngOnInit(): void {
+  ngOnInit(): void {
 
     /*=============================================
     Validar formulario de Bootstrap 4
@@ -50,9 +45,8 @@ export class RegisterComponent implements OnInit {
         });
       }, false);
     })();
-	
-	}
-
+		 
+  }
 
   /*=============================================
   Capitalizar la primera letra de nombre y apellido
@@ -60,6 +54,7 @@ export class RegisterComponent implements OnInit {
 
   capitalize(input){
 
+   
     input.value = Capitalize.fnc(input.value)
 
   }
@@ -79,21 +74,24 @@ export class RegisterComponent implements OnInit {
 
       this.usersService.getFilterData("username", input.value)
       .subscribe(resp=>{
-        
-        if(Object.keys(resp).length > 0){
 
+                
+        if(Object.keys(resp).length > 0) {
+          
           $(input).parent().addClass('was-validated')
 
           input.value = "";
 
-          Sweetalert.fnc("error", "Username already exists", null)
+          Sweetalert.fnc("error", "Username already exists", "null")
 
           return;
-         
+
+          
         }
 
       })
-
+           
+        
     }
 
     if($(input).attr("name") == "password"){
@@ -112,16 +110,15 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  /*=============================================
-  Envío del formulario
-  =============================================*/
 
-	onSubmit(f: NgForm ){
-  
-    if(f.invalid ){
+   /*=============================================
+    envío del formulario
+    =============================================*/
+    onSubmit(f: NgForm ){
 
-      return;
+    if(f.invalid){ 
 
+     return;
     }
 
     /*=============================================
@@ -130,18 +127,18 @@ export class RegisterComponent implements OnInit {
 
     Sweetalert.fnc("loading", "Loading...", null)
 
-		/*=============================================
+    /*=============================================
   	Registro en Firebase Authentication
   	=============================================*/
-		
-		this.user.returnSecureToken = true;
 
-		this.usersService.registerAuth(this.user)
-		.subscribe(resp=>{
-			
-			if(resp["email"] == this.user.email){
+    this.user.returnSecureToken = true;
+    
+    this.usersService.registerAuth(this.user)
+    .subscribe(resp=>{
 
-       /*=============================================
+      if(resp["email"] == this.user.email){
+
+        /*=============================================
         Enviar correo de verificación
         =============================================*/
 
@@ -163,244 +160,27 @@ export class RegisterComponent implements OnInit {
 
             this.user.displayName = `${this.user.first_name } ${this.user.last_name}`;
             this.user.method = "direct";
+            this.user.idToken = resp["idToken"];
             this.user.needConfirm = false;
-            this.user.username = this.user.username.toLowerCase();
-     
+      
             this.usersService.registerDatabase(this.user)
             .subscribe(resp=>{
-              
-               Sweetalert.fnc("success", "Confirm your account in your email (check spam)", "login")
 
-            })
+              Sweetalert.fnc("success", "Confirm your account in your email (check spam)", "login", "login")
+                 
 
-          }
+             })
+            }
 
-        })				
+          })
+          
+ 
+        }
 
-			}
+      }, err => {
+        Sweetalert.fnc("error", err.error.error.message, null)
 
-		}, err =>{
+      })
 
-      Sweetalert.fnc("error", err.error.error.message, null)
-
-    })
-
+    }
   }
-
-  /*=============================================
-  Registro con Facebook
-  =============================================*/
-
-  facebookRegister(){
-
-    let localUsersService = this.usersService;
-    let localUser = this.user;
-
-    // https://firebase.google.com/docs/web/setup
-    // Crea una nueva APP en Settings
-    // npm install --save firebase
-    // Agregar import * as firebase from "firebase/app";
-    // import "firebase/auth";
-
-    /*=============================================
-    Inicializa Firebase en tu proyecto web
-    =============================================*/
-
-     // Your web app's Firebase configuration
-    const firebaseConfig = {
-          apiKey: "api-key",
-      authDomain: "project-id.firebaseapp.com",
-      databaseURL: "https://project-id.firebaseio.com",
-      projectId: "project-id",
-      storageBucket: "project-id.appspot.com",
-      messagingSenderId: "sender-id",
-      appID: "app-id"
-    }
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    
-    //https://firebase.google.com/docs/auth/web/facebook-login
-
-    /*=============================================
-    Crea una instancia del objeto proveedor de Facebook
-    =============================================*/
-   
-    var provider = new firebase.auth.FacebookAuthProvider();
-
-    /*=============================================
-    acceder con una ventana emergente y con certificado SSL (https)
-    =============================================*/
-    //ng serve --ssl true --ssl-cert "/path/to/file.crt" --ssl-key "/path/to/file.key"
-
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      
-      registerFirebaseDatabase(result, localUser, localUsersService)
-     
-    }).catch(function(error) {
-     
-      var errorMessage = error.message;
-      
-      Sweetalert.fnc("error", errorMessage, "register");
-   
-    });
-
-      /*=============================================
-    Registramos al usuario en Firebase Database
-    =============================================*/
-
-    function registerFirebaseDatabase(result, localUser, localUsersService){
-
-      var user = result.user; 
-     
-      if(user.P){
-     
-        localUser.displayName = user.displayName;
-        localUser.email = user.email;
-        localUser.idToken = user.b.b.g;
-        localUser.method = "facebook";
-        localUser.username = user.email.split('@')[0];
-        localUser.picture = user.photoURL;
-  
-        /*=============================================
-        Evitar que se dupliquen los registros en Firebase Database
-        =============================================*/
-
-        localUsersService.getFilterData("email", user.email)
-        .subscribe(resp=>{
-
-          if(Object.keys(resp).length > 0){
-
-            Sweetalert.fnc("error", `You're already signed in, please login with ${resp[Object.keys(resp)[0]].method} method`, "login")
-
-          }else{
-
-            localUsersService.registerDatabase(localUser)
-            .subscribe(resp=>{
-
-              if(resp["name"] != ""){
-
-                Sweetalert.fnc("success", "Please Login with facebook", "login");
-
-              } 
-
-            })
-
-          }
-
-        })
-
-      }
-    }
-
-  }
-
-  /*=============================================
-  Registro con Google
-  =============================================*/
-
-  googleRegister(){
-
-    let localUsersService = this.usersService;
-    let localUser = this.user;
-
-    // https://firebase.google.com/docs/web/setup
-    // Crea una nueva APP en Settings
-    // npm install --save firebase
-    // Agregar import * as firebase from "firebase/app";
-    // import "firebase/auth";
-
-    /*=============================================
-    Inicializa Firebase en tu proyecto web
-    =============================================*/
-
-     // Your web app's Firebase configuration
-    const firebaseConfig = {
-         apiKey: "api-key",
-      authDomain: "project-id.firebaseapp.com",
-      databaseURL: "https://project-id.firebaseio.com",
-      projectId: "project-id",
-      storageBucket: "project-id.appspot.com",
-      messagingSenderId: "sender-id",
-      appID: "app-id"
-    }
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    
-    //https://firebase.google.com/docs/auth/web/google-signin
-
-    /*=============================================
-    Crea una instancia del objeto proveedor de Google
-    =============================================*/
-   
-    var provider = new firebase.auth.GoogleAuthProvider();
-
-    /*=============================================
-    acceder con una ventana emergente 
-    =============================================*/
-
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      
-      registerFirebaseDatabase(result, localUser, localUsersService)
-     
-    }).catch(function(error) {
-     
-      var errorMessage = error.message;
-      
-      Sweetalert.fnc("error", errorMessage, "register");
-   
-    });
-
-      /*=============================================
-    Registramos al usuario en Firebase Database
-    =============================================*/
-
-    function registerFirebaseDatabase(result, localUser, localUsersService){
-
-      var user = result.user; 
-     
-      if(user.P){
-     
-        localUser.displayName = user.displayName;
-        localUser.email = user.email;
-        localUser.idToken = user.b.b.g;
-        localUser.method = "google";
-        localUser.username = user.email.split('@')[0];
-        localUser.picture = user.photoURL;
-  
-        /*=============================================
-        Evitar que se dupliquen los registros en Firebase Database
-        =============================================*/
-
-        localUsersService.getFilterData("email", user.email)
-        .subscribe(resp=>{
-
-          if(Object.keys(resp).length > 0){
-
-            Sweetalert.fnc("error", `You're already signed in, please login with ${resp[Object.keys(resp)[0]].method} method`, "login")
-
-          }else{
-
-            localUsersService.registerDatabase(localUser)
-            .subscribe(resp=>{
-
-              if(resp["name"] != ""){
-
-                Sweetalert.fnc("success", "Please Login with google", "login");
-
-              } 
-
-            })
-
-          }
-
-        })
-
-      }
-
-    }
-
-  }
-
-}

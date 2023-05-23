@@ -78,6 +78,29 @@ export let OwlCarouselConfig = {
 }
 
 /*=============================================
+BackgroundImage
+=============================================*/
+
+export let BackgroundImage = {
+
+    fnc: function(){
+
+        var databackground = $('[data-background]');
+        databackground.each(function() {
+            if ($(this).attr('data-background')) {
+                var image_path = $(this).attr('data-background');
+                $(this).css({
+                    'background': 'url(' + image_path + ')'
+                });
+            }
+        });
+
+    }
+
+}
+
+
+/*=============================================
 CarouselNavigation
 =============================================*/
 
@@ -298,4 +321,465 @@ export let ProgressBar = {
 
 }
 
+/*=============================================
+DinamicRating
+=============================================*/
+
+export let DinamicRating = {
+
+    fnc: function(response){
+
+        /*=============================================
+        Calculamos el total de las calificaciones de las reseñas
+        =============================================*/    
+
+        let totalReview = 0;
+        let rating = 0;
+
+        if(JSON.parse(response.reviews).length > 0){
+
+            for(let i = 0; i < JSON.parse(response.reviews).length; i++){
+
+                totalReview += Number(JSON.parse(response.reviews)[i]["review"]);
+
+            }
+
+            rating = Math.round(totalReview/JSON.parse(response.reviews).length);
+
+            return rating;
+
+        }else{
+
+            return 0;
+        }
+
+    }
+
+}
+
+/*=============================================
+DinamicReview
+=============================================*/
+
+export let DinamicReviews = {
+
+    fnc: function(response){
+
+        /*=============================================
+        Clasificamos la cantidad de estrellas según la calificación
+        =============================================*/    
+
+        let reviews = [];
+
+        for(let r = 0; r < 5; r++){
+
+            if(response > 0){
+
+                if(response < (r+1)){
+
+                    reviews[r] = 2
+                
+                }else{
+
+                    reviews[r] = 1
+                }
+
+            }else{
+
+                reviews=[0,1,1,1,1,1];
+            }   
+        }
+
+        return reviews;
+    }
+
+}
+
+/*=============================================
+DinamicPrice
+=============================================*/
+
+export let DinamicPrice = {
+
+    fnc: function(response){
+    
+        let type;
+        let value;
+        let offer;
+        let price;
+        let disccount;
+        let arrayPrice = [];
+        let offerDate;
+        let today = new Date();
+
+
+        if(response.offer != ""){
+
+            offerDate = new Date(
+
+                parseInt(JSON.parse(response.offer)[2].split("-")[0]),
+                parseInt(JSON.parse(response.offer)[2].split("-")[1])-1,
+                parseInt(JSON.parse(response.offer)[2].split("-")[2])
+
+            )
+
+            if(today < offerDate){
+
+                type = JSON.parse(response.offer)[0];
+                value = JSON.parse(response.offer)[1];
+
+                if(type == "Disccount"){
+
+                    offer = (response.price-(response.price * value/100)).toFixed(2)    
+                }    
+
+                if(type == "Fixed"){
+
+                    offer = value;
+                    value = Math.round(offer*100/response.price);
+
+                }
+
+                disccount = `<div class="ps-product__badge">-${value}%</div>`;
+
+                price = `<p class="ps-product__price sale">$<span class="end-price">${offer}</span> <del>$${response.price} </del></p>`;
+
+            }else{
+
+                price = `<p class="ps-product__price">$<span class="end-price">${response.price}</span></p>`; 
+            }
+
+        }else{
+
+            price = `<p class="ps-product__price">$<span class="end-price">${response.price}</span></p>`;
+        }
+
+        /*=============================================
+        Definimos si el producto tiene stock
+        =============================================*/    
+
+        if(response.stock == 0){
+
+            disccount = `<div class="ps-product__badge out-stock">Out Of Stock</div>`;
+
+        }
+
+        arrayPrice[0] = price;
+        arrayPrice[1] = disccount;
+
+        return arrayPrice;
+    }
+
+}
+
+/*=============================================
+Pagination
+=============================================*/
+export let Pagination = {
+
+    fnc: function(){
+
+        var target = $('.pagination');
+        
+        if (target.length > 0) {
+
+            target.each(function() {
+                
+                var tg = $(this),
+                    totalPages = tg.data('total-pages'),                
+                    actualPage = tg.data('actual-page'),
+                    currentRoute = tg.data('current-route');    
+   
+                tg.twbsPagination({
+                    totalPages: totalPages,
+                    startPage: actualPage,
+                    visiblePages: 4,
+                    first: "First",
+                    last: "Last",
+                    prev: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>'
+                }).on("page", function(evt, page){
+
+                     window.location.href = currentRoute+"&"+page;
+
+                })
+               
+
+            })
+        }
+
+    }
+
+}
+
+/*=============================================
+Select2Cofig
+=============================================*/
+export let Select2Cofig = {
+
+    fnc: function(){
+
+        $('select.ps-select').select2({
+            placeholder: $(this).data('placeholder'),
+            minimumResultsForSearch: -1
+        });
+    }
+
+}
+
+/*=============================================
+Search
+=============================================*/
+export let Search = {
+
+    fnc: function(response){
+
+        var search = response.toLowerCase();
+
+        var match = /^[a-z0-9ñÑáéíóú ]*$/;
+
+        if(match.test(search)){
+
+            var searchTest = search.replace(/[ ]/g, "_");
+            searchTest = searchTest.replace(/[ñ]/g, "n");
+            searchTest = searchTest.replace(/[á]/g, "a");
+            searchTest = searchTest.replace(/[é]/g, "e");
+            searchTest = searchTest.replace(/[í]/g, "i");
+            searchTest = searchTest.replace(/[ó]/g, "o");
+            searchTest = searchTest.replace(/[ú]/g, "u");
+
+            return searchTest;
+
+        }
+
+    }
+
+}
+
+/*=============================================
+Tabs
+=============================================*/
+export let Tabs = {
+
+    fnc: function() {
+        $('.ps-tab-list  li > a ').on('click', function(e) {
+            e.preventDefault();
+            var target = $(this).attr('href');
+            $(this).closest('li').siblings('li').removeClass('active');
+            $(this).closest('li').addClass('active');
+            $(target).addClass('active');
+            $(target).siblings('.ps-tab').removeClass('active');
+        });
+        $('.ps-tab-list.owl-slider .owl-item a').on('click', function(e) {
+            e.preventDefault();
+            var target = $(this).attr('href');
+            $(this).closest('.owl-item').siblings('.owl-item').removeClass('active');
+            $(this).closest('.owl-item').addClass('active');
+            $(target).addClass('active');
+            $(target).siblings('.ps-tab').removeClass('active');
+        });
+    }
+
+}
+
+/*=============================================
+Quantity
+=============================================*/
+export let Quantity = {
+
+    fnc:function(){
+
+        $(".quantity").each(function(){
+
+            var spinner = $(this),
+            input = spinner.find('input[type="number"]'),
+            btnUp = spinner.find('.up'),
+            btnDown = spinner.find('.down'),
+            min = input.attr("min"),
+            max = input.attr("max")
+
+            btnUp.click(function(){
+
+                var oldValue = parseInt(input.val());
+
+                if(oldValue >= max){
+
+                    var newVal = oldValue;
+
+                }else{
+
+                    var newVal = oldValue + 1;
+                }
+
+                input.val(newVal)
+                input.trigger("change")
+
+            })
+
+            btnDown.click(function(){
+
+                var oldValue = parseInt(input.val());
+
+                if(oldValue <= min){
+
+                    var newVal = oldValue;
+
+                }else{
+
+                    var newVal = oldValue - 1;
+                }
+
+                input.val(newVal)
+                input.trigger("change")
+
+            })
+
+        })
+
+    }
+
+}
+
+/*=============================================
+Capitalize
+=============================================*/
+
+export let Capitalize = {
+
+    fnc: function(value){
+
+        value = value.toLowerCase();
+
+        let names = value.split(' ');
+
+        names = names.map( name => {
+
+            return name[0].toUpperCase() + name.substr(1)
+
+        })
+
+        return names.join(' ');
+
+    }
+
+}
+
+/*=============================================
+Sweetalert
+=============================================*/
+
+export let Sweetalert = {
+
+    fnc:function(type, text, url){
+
+        switch (type) {
+
+            case "error":
+
+            if(url == null){
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: text
+                }) 
+
+            }else{
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: text
+                }).then((result) => {
+
+                    if (result.value) { 
+
+                        window.open(url, "_top")
+                    }
+
+                })
+
+            } 
+
+            break; 
+
+            case "success":
+
+            if(url == null){
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: text
+                }) 
+
+            }else{
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: text
+                }).then((result) => {
+
+                    if (result.value) { 
+
+                        window.open(url, "_top")
+                    }
+
+                })
+
+            } 
+
+            break; 
+
+            case "loading":
+
+              Swal.fire({
+                allowOutsideClick: false,
+                icon: 'info',
+                text:text
+              })
+              Swal.showLoading()
+
+            break;
+
+            case "html":
+
+            Swal.fire({
+                allowOutsideClick: false,
+                title: 'Click to continue with the payment...',
+                icon: 'info',
+                html:text,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonColor: '#d33'
+            })
+
+            break;
+
+            case "close":
+
+                Swal.close()
+
+            break;
+
+        }
+
+       
+    }
+
+}
+
+/*=============================================
+Tooltip
+=============================================*/
+
+export let Tooltip = {
+
+    fnc: function(){
+
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+}
  

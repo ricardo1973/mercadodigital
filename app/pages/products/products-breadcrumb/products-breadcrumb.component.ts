@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { CategoriesService } from '../../../services/categories.service';
 import { SubCategoriesService } from '../../../services/sub-categories.service';
@@ -10,9 +10,9 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './products-breadcrumb.component.html',
   styleUrls: ['./products-breadcrumb.component.css']
 })
-export class ProductsBreadcrumbComponent implements OnInit {
+export class ProductsBreadcrumbComponent  {
 
-	breadcrumb:string = null;
+	breadcrumb:String = null;
 
   	constructor(private categoriesService: CategoriesService,
   	          private subCategoriesService: SubCategoriesService,
@@ -25,7 +25,7 @@ export class ProductsBreadcrumbComponent implements OnInit {
 	=============================================*/		
     // this.activateRoute.params.subscribe(param => { })
 
-	let params = this.activateRoute.snapshot.params["param"]
+	let params = this.activateRoute.snapshot.params["param"].split("&")[0];
 
 	/*=============================================
 	Filtramos data de categorías
@@ -42,9 +42,17 @@ export class ProductsBreadcrumbComponent implements OnInit {
 
 				this.breadcrumb = resp1[i].name;
 
+				let id = Object.keys(resp1).toString();
+				
+				let value = {
+					"view": Number(resp1[i].view+1)
+				}
+
+				this.categoriesService.patchData(id, value)
+				.subscribe(resp=>{})
+	
 			}
-				
-				
+
 		}else{
 
 			/*=============================================
@@ -62,7 +70,12 @@ export class ProductsBreadcrumbComponent implements OnInit {
 
 					let id = Object.keys(resp2).toString();
 				
-					
+					let value = {
+						"view": Number(resp2[i].view+1)
+					}
+
+					this.subCategoriesService.patchData(id, value)
+					.subscribe(resp=>{})
 					
 				}
 
@@ -75,3 +88,4 @@ export class ProductsBreadcrumbComponent implements OnInit {
   }
 
 }
+

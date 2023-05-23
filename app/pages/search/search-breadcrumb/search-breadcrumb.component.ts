@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './search-breadcrumb.component.html',
   styleUrls: ['./search-breadcrumb.component.css']
 })
-export class SearchBreadcrumbComponent  {
+export class SearchBreadcrumbComponent {
 
 	breadcrumb:string = null;
 

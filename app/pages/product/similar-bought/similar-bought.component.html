@@ -1,6 +1,4 @@
-<div 
-*ngIf="!preload"
-class="ps-section--default ps-customer-bought">
+<div class="ps-section--default ps-customer-bought">
 
     <div class="ps-section__header">
 
@@ -29,7 +27,7 @@ class="ps-section--default ps-customer-bought">
 		                <ul class="ps-product__actions">
 
 		                    <li>
-		                    	<a style="cursor:pointer" (click)="addShoppingCart(product.url, 1, [])" data-toggle="tooltip" data-placement="top" title="Add to Cart">
+		                    	<a href="#" data-toggle="tooltip" data-placement="top" title="Read More">
 		                        	<i class="icon-bag2"></i>
 		                        </a>
 		                    </li>
@@ -41,7 +39,7 @@ class="ps-section--default ps-customer-bought">
 		                    </li>
 
 		                    <li>
-		                    	<a  style="cursor:pointer" (click)="addWishlist(product.url)" data-toggle="tooltip" data-placement="top" title="Add to Whishlist">
+		                    	<a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist">
 		                    		<i class="icon-heart"></i>
 		                    	</a>
 		                    </li>
@@ -99,13 +97,3 @@ class="ps-section--default ps-customer-bought">
 
 </div><!--  End Customers who bought -->
 
-<!--=====================================
-Preload
-======================================-->
-<div
-*ngIf="preload"
-class="d-flex justify-content-center">
-    
-    <div class="spinner-border text-muted my-5"></div>
-
-</div>

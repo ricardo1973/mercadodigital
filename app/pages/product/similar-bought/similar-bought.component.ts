@@ -1,37 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Path } from '../../../config';
 import { Rating, 
 	     DinamicRating, 
          DinamicReviews, 
          DinamicPrice   } from '../../../functions';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
-import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-similar-bought',
   templateUrl: './similar-bought.component.html',
   styleUrls: ['./similar-bought.component.css']
 })
-export class SimilarBoughtComponent implements OnInit {
+export class SimilarBoughtComponent {
 
-  path:string = Path.url;	
-  	products:any[] = [];
-  	rating:any[] = [];
-  	reviews:any[] = [];
-  	price:any[] = [];
-  	render:boolean = true;
-  	preload:boolean = false;
+  path:String = Path.url;	
+  	products:Array<any> = [];
+  	rating:Array<any> = [];
+  	reviews:Array<any> = [];
+  	price:Array<any> = [];
+  	render:Boolean = true;
+  	cargando:Boolean = false;
 
   	constructor(private activateRoute: ActivatedRoute,
-  		        private productsService: ProductsService,
-  		        private usersService: UsersService,
-  		        private router: Router) { }
+  		        private productsService: ProductsService) { }
 
   	ngOnInit(): void {
 
-  		this.preload = true;
+  		this.cargando = true;
 
   		this.productsService.getFilterData("url", this.activateRoute.snapshot.params["param"]) 
   		.subscribe( resp => { 
@@ -103,7 +100,7 @@ export class SimilarBoughtComponent implements OnInit {
 
 	        	this.price.push(DinamicPrice.fnc(this.products[index]));
 				
-				this.preload = false;
+				this.cargando = false;
 			}
 
 
@@ -126,32 +123,5 @@ export class SimilarBoughtComponent implements OnInit {
 
   		}
 	}
-
-	/*=============================================
-	Función para agregar productos a la lista de deseos	
-	=============================================*/
-
-	addWishlist(product){		  
-		this.usersService.addWishlist(product);
-	}
-
-	/*=============================================
-	Función para agregar productos al carrito de compras
-	=============================================*/
-
-	addShoppingCart(product, unit, details){
-
-		let url = this.router.url;
-
-		let item = {
-		
-			product: product,
-			unit: unit,
-			details: details,
-			url:url
-		}
-
-		this.usersService.addSoppingCart(item);
-
-	}
 }
+

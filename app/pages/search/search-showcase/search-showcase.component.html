@@ -1,25 +1,29 @@
 <!--=====================================
-    				Products found
-    				======================================-->
+Products found
+======================================--> 
 
 <div class="ps-shopping ps-tab-root">
 
     <!--=====================================
-                                Shoping Header
-                        ======================================-->
+    Shoping Header
+    ======================================--> 
 
     <div class="ps-shopping__header">
 
-        <p><strong>{{productFound}}</strong> Products found</p>
+        <p><strong> {{productFound}}</strong> Products found</p>
 
         <div class="ps-shopping__actions">
 
-            <select *ngIf="sortItems.length > 0" class="ps-select sortItems" data-placeholder="Sort Items">
+            <select 
+            *ngIf="sortItems.length > 0"
+            class="ps-select sortItems" data-placeholder="Sort Items">
 
-                <option *ngFor="let item of sortItems; let i = index" [value]="sortValues[i]">
+                <option
+                *ngFor="let item of sortItems; let i = index"
+                [value]="sortValues[i]">
 
-                    {{item}}</option>
-
+                {{item}}</option>
+               
 
             </select>
 
@@ -50,14 +54,16 @@
     </div>
 
     <!--=====================================
-                        Shoping Body
-                        ======================================-->
+    Shoping Body
+    ======================================--> 
 
-    <div *ngIf="!cargando" class="ps-tabs">
+    <div 
+    *ngIf="!cargando"
+    class="ps-tabs">
 
         <!--=====================================
-                                                Grid View
-                                                ======================================-->
+        Grid View
+        ======================================--> 
 
         <div class="ps-tab active" id="tab-1">
 
@@ -66,18 +72,19 @@
                 <div class="row">
 
                     <!--=====================================
-                                                            Product
-                                                            ======================================-->
+                    Product
+                    ======================================--> 
 
-                    <div *ngFor="let product of products; let i = index;" class="col-lg-2 col-md-4 col-6">
+                    <div 
+                    *ngFor="let product of products; let i = index;"
+                    class="col-lg-2 col-md-4 col-6">
 
                         <div class="ps-product">
 
                             <div class="ps-product__thumbnail">
 
                                 <a href="product/{{product.url}}">
-                                    <img src="{{path}}img/products/{{product.category}}/{{product.image}}"
-                                        alt="{{product.name}}">
+                                    <img src="{{path}}img/products/{{product.category}}/{{product.image}}" alt="{{product.name}}">
                                 </a>
 
                                 <div [innerHTML]="price[i][1]"></div>
@@ -91,8 +98,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="product/{{product.url}}" data-toggle="tooltip"
-                                            data-placement="top" title="Quick View">
+                                        <a href="product/{{product.url}}" data-toggle="tooltip" data-placement="top" title="Quick View">
                                             <i class="icon-eye"></i>
                                         </a>
                                     </li>
@@ -101,9 +107,7 @@
                                         <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Whishlist">
                                             <i class="icon-heart"></i>
                                         </a>
-                                    </li>
-
-
+                                    </li>                      
 
                                 </ul>
 
@@ -116,18 +120,17 @@
                                 <div class="ps-product__content">
 
                                     <a class="ps-product__title" href="product/{{product.url}}">
-                                        {{product.name}}</a>
-
+                                    {{product.name}}</a>
 
                                     <div class="ps-product__rating">
 
                                         <select class="ps-rating" data-read-only="true">
 
-                                            <option *ngFor="let review of reviews[i]; let f = index" [value]="review">
-                                                {{f+1}}
-                                            </option>
-
-                                        </select>
+                                            <option 
+                                            *ngFor="let review of reviews[i]; let f = index"
+                                        [value]="review">{{f+1}}</option>
+                                     
+                                            </select>
 
                                         <span>{{rating[i]}}</span>
 
@@ -140,7 +143,7 @@
                                 <div class="ps-product__content hover">
 
                                     <a class="ps-product__title" href="product/{{product.url}}">
-                                        {{product.name}}</a>
+                                    {{product.name}}</a>
 
                                     <div [innerHTML]="price[i][0]"></div>
 
@@ -150,7 +153,8 @@
 
                         </div>
 
-
+                    
+                  
                     </div><!-- End Product -->
 
                 </div>
@@ -159,9 +163,11 @@
 
             <div class="ps-pagination">
 
-                <ul class="pagination" [attr.data-total-pages]="totalPage" [attr.data-actual-page]="page"
-                    [attr.data-current-route]="currentRoute">
-
+                <ul class="pagination"
+                [attr.data-total-pages]="totalPage"
+                [attr.data-actual-page]="page"
+                [attr.data-current-route]="currentRoute">
+                    
                 </ul>
 
             </div>
@@ -169,25 +175,25 @@
         </div><!-- End Grid View-->
 
         <!--=====================================
-                                                List View
-                                                ======================================-->
+        List View
+        ======================================--> 
 
         <div class="ps-tab" id="tab-2">
 
             <div class="ps-shopping-product">
 
                 <!--=====================================
-                                                        Product
-                                    ======================================-->
+                Product
+                ======================================--> 
 
-                <div *ngFor="let product of products; let i = index; let lastIndex = last"
-                    class="ps-product ps-product--wide">
+                <div 
+                *ngFor="let product of products; let i = index; let lastIndex = last"
+                class="ps-product ps-product--wide">
 
                     <div class="ps-product__thumbnail">
 
                         <a href="product/{{product.url}}">
-                            <img src="{{path}}img/products/{{product.category}}/{{product.image}}"
-                                alt="{{product.name}}">
+                            <img src="{{path}}img/products/{{product.category}}/{{product.image}}" alt="{{product.name}}">
                         </a>
 
                     </div>
@@ -197,16 +203,17 @@
                         <div class="ps-product__content">
 
                             <a class="ps-product__title" href="product/{{product.url}}">
-                                {{product.name}}</a>
+                            {{product.name}}</a>
 
                             <div class="ps-product__rating">
 
                                 <select class="ps-rating" data-read-only="true">
 
-                                    <option *ngFor="let review of reviews[i]; let f = index" [value]="review"> {{f+1}}
-                                    </option>
-
-                                </select>
+                                    <option 
+                                    *ngFor="let review of reviews[i]; let f = index"
+                                [value]="review">{{f+1}}</option>
+                             
+                                    </select>
 
                                 <span>{{rating[i]}}</span>
 
@@ -215,7 +222,6 @@
                             <p class="ps-product__vendor">Sold by:
                                 <a href="#">{{product.store}}</a>
                             </p>
-
 
                             <div [innerHTML]="product.summary"></div>
 
@@ -229,40 +235,43 @@
 
                             <ul class="ps-product__actions">
                                 <li><a href="product/{{product.url}}"><i class="icon-eye"></i>View</a></li>
-                                <li><a href="#"><i class="icon-heart"></i> Wishlist</a></li>
+                                <li><a href="#"><i class="icon-heart"></i> Wishlist</a></li>       
                             </ul>
 
                         </div>
 
                     </div>
 
-                    {{lastIndex ? callback(params) : ""}}
+                
+                 {{ lastIndex ? callback(params) : ""}}
                 </div> <!-- End Product -->
-
 
 
             </div>
 
-            <div class="ps-pagination">
+             <div class="ps-pagination">
 
-                <ul class="pagination" [attr.data-total-pages]="totalPage" [attr.data-actual-page]="page"
-                    [attr.data-current-route]="currentRoute">
-
-
+                <ul class="pagination"
+                [attr.data-total-pages]="totalPage"
+                [attr.data-actual-page]="page"
+                [attr.data-current-route]="currentRoute">
+                    
                 </ul>
 
             </div>
 
         </div>
 
-
-        <!--=====================================
-                    Preload
-                    ======================================-->
-        <div *ngIf="cargando" class="d-flex justify-content-center">
-
-            <div class="spinner-border text-muted my-5"></div>
-        </div>
-
-
     </div>
+
+    <!--=====================================
+    Preload
+    ======================================-->
+
+    <div 
+    *ngIf="cargando"
+    class="d-flex justify-content-center">
+        <div class="spinner-border text-muted my-5"></div>
+    </div>
+
+</div>
